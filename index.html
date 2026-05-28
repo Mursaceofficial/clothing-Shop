@@ -400,7 +400,7 @@ function orderViaWhatsApp() {
   const number = waNumber.replace(/\D/g,'')||'15555555555';
   const lines = cart.map(i=>`• ${i.name} (Size: ${i.size}) x${i.qty} — $${i.price*i.qty}`).join('\n');
   const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
-  const msg = `Hi Mursace! 👋 I'd like to place an order:\n\n${lines}\n\n*Total: $${total}*\n\nPlease confirm availability. Thanks!`;
+  const msg = `Hi Mursace! I'd like to place an order:\n\n${lines}\n\n*Total: $${total}*\n\nPlease confirm availability. Thanks!`;
   window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
@@ -412,7 +412,7 @@ function showToast(msg) {
 
 function contactViaWhatsApp() {
   const number = waNumber.replace(/\D/g,'')||'15555555555';
-  const msg = `Hi Mursace! 👋 I'd like to get in touch. Can you help me?`;
+  const msg = `Hi Mursace! I'd like to get in touch. Can you help me?`;
   window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
