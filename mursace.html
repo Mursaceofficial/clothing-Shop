@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MURSACE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4A017;
+    --gold-light: #F2C94C;
+    --gold-dark: #9A7210;
+    --black: #0A0A0A;
+    --off-black: #111111;
+    --surface: #161616;
+    --surface2: #1E1E1E;
+    --white: #F5F5F0;
+    --muted: #888880;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  body { cursor: none; }
+  #cursor {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    position: fixed; pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  #cursor.big { width: 36px; height: 36px; background: transparent; border: 1.5px solid var(--gold); }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--gold); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul a:hover { color: var(--gold); }
+  .cart-btn {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 0.55rem 1.4rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    position: relative;
+  }
+  .cart-btn:hover { background: var(--gold-light); }
+  #cart-count {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--white); color: var(--black);
+    width: 18px; height: 18px; border-radius: 50%;
+    font-size: 0.6rem; display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(212,160,23,0.025) 80px, rgba(212,160,23,0.025) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(212,160,23,0.025) 80px, rgba(212,160,23,0.025) 81px);
+  }
+  .hero-star {
+    position: absolute;
+    opacity: 0.06;
+    font-size: 40rem;
+    line-height: 1;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+    animation: spin 60s linear infinite;
+  }
+  @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  .hero-tag {
+    font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 13rem);
+    line-height: 0.88;
+    letter-spacing: 0.04em;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title .outline {
+    -webkit-text-stroke: 1.5px var(--white);
+    color: transparent;
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-subtitle {
+    font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted);
+    text-transform: uppercase; margin-top: 1.5rem; margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    padding: 0.9rem 3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: background 0.2s, color 0.2s;
+    cursor: none;
+  }
+  .hero-cta:hover { background: var(--gold); color: var(--black); }
+
+  .scroll-line {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .scroll-line span { font-size: 0.55rem; letter-spacing: 0.25em; color: var(--muted); }
+  .scroll-line::after {
+    content: '';
+    display: block; width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollpulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollpulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    border-top: 1px solid rgba(212,160,23,0.2);
+    border-bottom: 1px solid rgba(212,160,23,0.2);
+    overflow: hidden;
+    padding: 0.9rem 0;
+    background: var(--surface);
+  }
+  .marquee-track {
+    display: flex; gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-track span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+  .marquee-track span.gold { color: var(--gold); }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ── SECTIONS ── */
+  section { padding: 5rem 3rem; }
+  .section-label {
+    font-size: 0.6rem; letter-spacing: 0.35em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  /* ── SHOP ── */
+  #shop { background: var(--off-black); }
+  .filters {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--surface2);
+    color: var(--muted);
+    padding: 0.45rem 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  #product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5px;
+  }
+
+  .product-card {
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: transform 0.3s;
+  }
+  .product-card:hover { transform: translateY(-4px); }
+  .product-img {
+    width: 100%; aspect-ratio: 3/4;
+    object-fit: cover;
+    display: block;
+    background: var(--surface2);
+    position: relative;
+    overflow: hidden;
+  }
+  .product-img-placeholder {
+    width: 100%; aspect-ratio: 3/4;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+  .product-badge {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--gold);
+    color: var(--black);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    padding: 0.2rem 0.6rem;
+    text-transform: uppercase;
+  }
+  .product-info {
+    padding: 1.2rem;
+    border-top: 1px solid rgba(212,160,23,0.1);
+  }
+  .product-cat {
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+  .product-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .product-price {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+  }
+  .product-price .orig {
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+  }
+  .product-sizes {
+    display: flex; gap: 0.35rem; margin: 0.7rem 0;
+    flex-wrap: wrap;
+  }
+  .size-chip {
+    border: 1px solid var(--surface2);
+    color: var(--muted);
+    font-size: 0.55rem;
+    padding: 0.2rem 0.5rem;
+    letter-spacing: 0.1em;
+    cursor: none;
+    transition: all 0.15s;
+    background: transparent;
+    font-family: 'Space Mono', monospace;
+  }
+  .size-chip:hover, .size-chip.selected {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(212,160,23,0.08);
+  }
+  .add-cart-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
+    margin-top: 0.7rem;
+  }
+  .add-cart-btn:hover { background: var(--gold); color: var(--black); }
+  .add-cart-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--muted);
+    color: var(--muted);
+  }
+  .out-of-stock .product-img-placeholder { filter: grayscale(1); }
+  .out-of-stock .add-cart-btn { border-color: var(--muted); color: var(--muted); }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--black);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-box {
+    border: 1px solid rgba(212,160,23,0.3);
+    padding: 3rem 2.5rem;
+    position: relative;
+  }
+  .about-box::before {
+    content: '★';
+    position: absolute; top: -1rem; right: 1.5rem;
+    color: var(--gold);
+    font-size: 1.5rem;
+    background: var(--black);
+    padding: 0 0.5rem;
+  }
+  .about-text { color: var(--muted); line-height: 2; font-size: 0.8rem; }
+  .about-text p { margin-bottom: 1rem; }
+  .stat-row {
+    display: flex; gap: 3rem; margin-top: 2.5rem;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  /* ── CART SIDEBAR ── */
+  #cart-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 200; display: none;
+    backdrop-filter: blur(4px);
+  }
+  #cart-overlay.open { display: block; }
+  #cart-drawer {
+    position: fixed; top: 0; right: -450px; bottom: 0;
+    width: 420px; background: var(--surface);
+    z-index: 201;
+    border-left: 1px solid rgba(212,160,23,0.2);
+    transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #cart-drawer.open { right: 0; }
+  .cart-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cart-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.1em;
+  }
+  .close-cart {
+    background: transparent; border: none; cursor: none;
+    color: var(--muted); font-size: 1.5rem;
+    transition: color 0.2s;
+  }
+  .close-cart:hover { color: var(--gold); }
+  #cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.5rem; }
+  .cart-item {
+    display: flex; gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .cart-item-img {
+    width: 70px; height: 90px;
+    background: var(--surface2);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem; color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; font-family: 'Space Mono', monospace;
+    overflow: hidden;
+  }
+  .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cart-item-info { flex: 1; }
+  .cart-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem; margin-bottom: 0.2rem;
+  }
+  .cart-item-meta {
+    font-size: 0.6rem; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .cart-item-price { color: var(--gold); font-size: 0.8rem; }
+  .cart-item-remove {
+    background: transparent; border: none; cursor: none;
+    color: var(--muted); font-size: 0.7rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-family: 'Space Mono', monospace;
+    padding: 0; transition: color 0.2s;
+  }
+  .cart-item-remove:hover { color: #ff4444; }
+  .cart-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+  .cart-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(212,160,23,0.15);
+  }
+  .cart-total-row {
+    display: flex; justify-content: space-between;
+    margin-bottom: 1.2rem;
+    font-size: 0.75rem;
+  }
+  .cart-total-row .total-label { color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .cart-total-row .total-val { color: var(--gold); font-size: 1.1rem; }
+  .whatsapp-btn {
+    width: 100%;
+    background: #25D366;
+    border: none;
+    color: #fff;
+    padding: 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+  }
+  .whatsapp-btn:hover { background: #1da851; }
+  .whatsapp-btn svg { width: 18px; height: 18px; }
+  .cart-note {
+    font-size: 0.55rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-top: 0.75rem;
+  }
+
+  /* ── ADMIN PANEL ── */
+  #admin-panel {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 300;
+    display: none;
+    overflow-y: auto;
+  }
+  #admin-panel.open { display: flex; justify-content: center; align-items: flex-start; padding: 3rem 1rem; }
+  .admin-wrap {
+    background: var(--surface);
+    border: 1px solid rgba(212,160,23,0.3);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 700px;
+  }
+  .admin-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    padding-bottom: 1.2rem;
+  }
+  .admin-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: 0.1em;
+    color: var(--gold);
+  }
+  .admin-section-title {
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 1.2rem; margin-top: 2rem;
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    padding-bottom: 0.5rem;
+  }
+  .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .admin-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .admin-field label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .admin-field input, .admin-field select, .admin-field textarea {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 0.6rem 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .admin-field input:focus, .admin-field select:focus, .admin-field textarea:focus {
+    border-color: var(--gold);
+  }
+  .admin-field textarea { min-height: 80px; resize: vertical; }
+  .admin-field select option { background: var(--surface2); }
+  .admin-add-btn {
+    width: 100%;
+    background: var(--gold);
+    border: none;
+    color: var(--black);
+    padding: 0.85rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: none;
+    margin-top: 1.5rem;
+    transition: background 0.2s;
+  }
+  .admin-add-btn:hover { background: var(--gold-light); }
+  .existing-products { margin-top: 1.5rem; }
+  .admin-product-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.7rem;
+  }
+  .admin-product-row .name { font-family: 'Playfair Display', serif; }
+  .admin-product-row .price { color: var(--gold); }
+  .admin-delete-btn {
+    background: transparent; border: 1px solid rgba(255,80,80,0.3);
+    color: #ff6666;
+    font-size: 0.55rem; letter-spacing: 0.1em;
+    padding: 0.25rem 0.6rem;
+    cursor: none; font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .admin-delete-btn:hover { background: rgba(255,80,80,0.1); border-color: #ff6666; }
+  .admin-number {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    padding: 1.2rem;
+    border: 1px solid rgba(212,160,23,0.2);
+    background: rgba(212,160,23,0.04);
+  }
+  .admin-number label {
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase;
+  }
+  .admin-number input {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 0.6rem 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    outline: none; width: 100%;
+    transition: border-color 0.2s;
+  }
+  .admin-number input:focus { border-color: var(--gold); }
+  .admin-save-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.5rem 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    margin-top: 0.5rem;
+    transition: all 0.2s;
+    width: fit-content;
+  }
+  .admin-save-btn:hover { background: var(--gold); color: var(--black); }
+  .admin-login {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 1rem; padding: 3rem;
+  }
+  .admin-login h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; color: var(--gold); letter-spacing: 0.1em;
+  }
+  .admin-login input {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 0.7rem 1rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    outline: none; width: 100%; max-width: 300px;
+    transition: border-color 0.2s;
+  }
+  .admin-login input:focus { border-color: var(--gold); }
+  .admin-login button {
+    background: var(--gold); border: none;
+    color: var(--black); padding: 0.7rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; cursor: none;
+    transition: background 0.2s;
+  }
+  .admin-login button:hover { background: var(--gold-light); }
+  .admin-err {
+    font-size: 0.65rem; color: #ff6666; letter-spacing: 0.1em;
+  }
+  .img-preview {
+    width: 100%; height: 140px;
+    background: var(--surface2);
+    border: 1px dashed rgba(212,160,23,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 0.6rem; letter-spacing: 0.1em;
+    margin-top: 0.5rem; overflow: hidden;
+  }
+  .img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid rgba(212,160,23,0.15);
+    padding: 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; letter-spacing: 0.1em;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links {
+    display: flex; gap: 2rem;
+    list-style: none;
+  }
+  .footer-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy {
+    font-size: 0.55rem; color: var(--muted);
+    letter-spacing: 0.15em; text-transform: uppercase;
+  }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 2rem; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gold);
+    color: var(--black);
+    padding: 0.7rem 2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    z-index: 500;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── ADMIN TOGGLE ── */
+  #admin-toggle {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--surface);
+    border: 1px solid rgba(212,160,23,0.3);
+    color: var(--gold);
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: none; z-index: 100;
+    font-size: 1.3rem;
+    transition: background 0.2s;
+  }
+  #admin-toggle:hover { background: var(--surface2); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    section { padding: 4rem 1.5rem; }
+    #about { grid-template-columns: 1fr; gap: 2.5rem; }
+    #cart-drawer { width: 100%; right: -100%; }
+    .admin-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MUR<span>★</span>SACE</div>
+  <ul>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <button class="cart-btn" onclick="openCart()">
+    Cart
+    <span id="cart-count">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-star" aria-hidden="true">★</div>
+  <div class="hero-tag">Premium Streetwear — Nassau</div>
+  <h1 class="hero-title">
+    <span class="outline">MUR</span><span class="gold">★</span><br>SACE
+  </h1>
+  <p class="hero-subtitle">Exclusive drops. No restock. All heat.</p>
+  <a href="#shop" class="hero-cta">Shop Now</a>
+  <div class="scroll-line"><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span>MURSACE</span><span class="gold">★</span>
+    <span>STREETWEAR</span><span class="gold">★</span>
+    <span>NASSAU</span><span class="gold">★</span>
+    <span>LIMITED STOCK</span><span class="gold">★</span>
+    <span>EXCLUSIVE PIECES</span><span class="gold">★</span>
+    <span>MURSACE</span><span class="gold">★</span>
+    <span>STREETWEAR</span><span class="gold">★</span>
+    <span>NASSAU</span><span class="gold">★</span>
+    <span>LIMITED STOCK</span><span class="gold">★</span>
+    <span>EXCLUSIVE PIECES</span><span class="gold">★</span>
+    <span>MURSACE</span><span class="gold">★</span>
+    <span>STREETWEAR</span><span class="gold">★</span>
+    <span>NASSAU</span><span class="gold">★</span>
+    <span>LIMITED STOCK</span><span class="gold">★</span>
+    <span>EXCLUSIVE PIECES</span><span class="gold">★</span>
+  </div>
+</div>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-label">Collection</div>
+  <h2 class="section-title">Latest Drops</h2>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
+    <button class="filter-btn" onclick="filterProducts('tops', this)">Tops</button>
+    <button class="filter-btn" onclick="filterProducts('bottoms', this)">Bottoms</button>
+    <button class="filter-btn" onclick="filterProducts('outerwear', this)">Outerwear</button>
+    <button class="filter-btn" onclick="filterProducts('accessories', this)">Accessories</button>
+  </div>
+  <div id="product-grid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-box">
+      <div class="section-label">Est. Nassau, BS</div>
+      <h2 class="section-title">Built Different</h2>
+      <div class="about-text">
+        <p>Mursace is more than clothing — it's a statement. Every piece we carry is hand-picked for quality, style, and exclusivity. No fast fashion. No mass production.</p>
+        <p>When you rock Mursace, you're wearing something not everyone can get. That's the point.</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat-item">
+          <div class="stat-num" id="stat-pieces">0</div>
+          <div class="stat-label">Pieces in Stock</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">★</div>
+          <div class="stat-label">Limited Drops Only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Order Process</h2>
+    <div style="color: var(--muted); font-size: 0.8rem; line-height: 2.2;">
+      <div style="margin-bottom: 1.2rem; display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; line-height: 1; flex-shrink:0;">01</span>
+        <div><strong style="color: var(--white); display: block; margin-bottom: 0.2rem;">Browse & Select</strong>Pick your pieces and choose your size from the shop below.</div>
+      </div>
+      <div style="margin-bottom: 1.2rem; display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; line-height: 1; flex-shrink:0;">02</span>
+        <div><strong style="color: var(--white); display: block; margin-bottom: 0.2rem;">Add to Cart</strong>Build your order — quantities are limited so move fast.</div>
+      </div>
+      <div style="margin-bottom: 1.2rem; display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; line-height: 1; flex-shrink:0;">03</span>
+        <div><strong style="color: var(--white); display: block; margin-bottom: 0.2rem;">Order via WhatsApp</strong>Hit checkout and we'll send your full order to our WhatsApp. We'll confirm availability and sort the rest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">MUR<span>★</span>SACE</div>
+  <ul class="footer-links">
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Mursace. All rights reserved.</div>
+</footer>
+
+<!-- CART DRAWER -->
+<div id="cart-overlay" onclick="closeCart()"></div>
+<div id="cart-drawer" role="dialog" aria-label="Shopping cart">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="close-cart" onclick="closeCart()" aria-label="Close cart">✕</button>
+  </div>
+  <div id="cart-items"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none;">
+    <div class="cart-total-row">
+      <span class="total-label">Total</span>
+      <span class="total-val" id="cart-total">$0</span>
+    </div>
+    <button class="whatsapp-btn" onclick="orderViaWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Order via WhatsApp
+    </button>
+    <p class="cart-note">No online payment — we'll confirm your order and sort the rest via WhatsApp</p>
+  </div>
+</div>
+
+<!-- ADMIN TOGGLE -->
+<button id="admin-toggle" onclick="openAdmin()" title="Admin Panel">⚙</button>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel" role="dialog" aria-label="Admin panel">
+  <div class="admin-wrap" id="admin-content">
+    <!-- login or dashboard injected here -->
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ── STATE ──
+let products = JSON.parse(localStorage.getItem('mursace_products') || 'null') || [
+  { id: 1, name: "OG Tee Vol. 1", category: "tops", price: 55, sizes: ["S","M","L","XL"], inStock: true, badge: "New Drop", imageUrl: "" },
+  { id: 2, name: "Star Hoodie", category: "tops", price: 95, sizes: ["M","L","XL"], inStock: true, badge: "Limited", imageUrl: "" },
+  { id: 3, name: "Mursace Cargo", category: "bottoms", price: 80, sizes: ["S","M","L"], inStock: true, badge: "", imageUrl: "" },
+  { id: 4, name: "Gold Star Cap", category: "accessories", price: 35, sizes: ["One Size"], inStock: true, badge: "Hot", imageUrl: "" },
+  { id: 5, name: "Signature Jogger", category: "bottoms", price: 70, sizes: ["S","M","L","XL"], inStock: false, badge: "Sold Out", imageUrl: "" },
+];
+let cart = [];
+let selectedSizes = {};
+let waNumber = localStorage.getItem('mursace_wa') || '';
+let adminLoggedIn = false;
+const ADMIN_PASS = 'mursace2025';
+let currentFilter = 'all';
+let nextId = Math.max(...products.map(p => p.id), 0) + 1;
+
+function saveProducts() {
+  localStorage.setItem('mursace_products', JSON.stringify(products));
+}
+
+// ── CURSOR ──
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('button,a,[onclick]')) cursor.classList.add('big');
+  else cursor.classList.remove('big');
+});
+
+// ── RENDER PRODUCTS ──
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  let filtered = currentFilter === 'all' ? products : products.filter(p => p.category === currentFilter);
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="padding:4rem 0; color:var(--muted); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; grid-column:1/-1;">No items in this category yet</div>`;
+    document.getElementById('stat-pieces').textContent = products.filter(p => p.inStock).length;
+    return;
+  }
+  grid.innerHTML = filtered.map(p => {
+    const imgHtml = p.imageUrl
+      ? `<img src="${p.imageUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;">`
+      : `<div class="product-img-placeholder">${p.name}</div>`;
+    const sizesHtml = p.sizes.map(s =>
+      `<button class="size-chip ${selectedSizes[p.id] === s ? 'selected' : ''}" onclick="selectSize(${p.id}, '${s}', this)">${s}</button>`
+    ).join('');
+    const badgeHtml = p.badge ? `<div class="product-badge">${p.badge}</div>` : '';
+    const disabled = !p.inStock || !selectedSizes[p.id] ? 'disabled' : '';
+    const btnText = !p.inStock ? 'Out of Stock' : (!selectedSizes[p.id] ? 'Select a Size' : 'Add to Cart');
+    return `
+    <div class="product-card ${!p.inStock ? 'out-of-stock' : ''}" data-id="${p.id}">
+      <div style="position:relative; aspect-ratio:3/4; overflow:hidden; background:var(--surface2);">
+        ${imgHtml}
+        ${badgeHtml}
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.category}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">$${p.price}</div>
+        <div class="product-sizes">${sizesHtml}</div>
+        <button class="add-cart-btn" id="atc-${p.id}" onclick="addToCart(${p.id})" ${disabled}>${btnText}</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('stat-pieces').textContent = products.filter(p => p.inStock).length;
+}
+
+function selectSize(productId, size, el) {
+  selectedSizes[productId] = size;
+  document.querySelectorAll(`.product-card[data-id="${productId}"] .size-chip`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const btn = document.getElementById(`atc-${productId}`);
+  if (btn) { btn.disabled = false; btn.textContent = 'Add to Cart'; }
+}
+
+function filterProducts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts();
+}
+
+// ── CART ──
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  if (!product || !product.inStock) return;
+  const size = selectedSizes[id];
+  if (!size) return;
+  const existing = cart.find(i => i.id === id && i.size === size);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id, name: product.name, price: product.price, size, qty: 1, imageUrl: product.imageUrl || '' }); }
+  updateCartCount();
+  showToast(`${product.name} added to cart`);
+  renderCart();
+}
+
+function removeFromCart(idx) {
+  cart.splice(idx, 1);
+  updateCartCount();
+  renderCart();
+}
+
+function updateCartCount() {
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cart-count').textContent = total;
+}
+
+function renderCart() {
+  const el = document.getElementById('cart-items');
+  const footer = document.getElementById('cart-footer');
+  if (!cart.length) {
+    el.innerHTML = `<div class="cart-empty">Your cart is empty.<br><br>Go grab something 🖤</div>`;
+    footer.style.display = 'none';
+    return;
+  }
+  footer.style.display = 'block';
+  el.innerHTML = cart.map((item, idx) => {
+    const imgContent = item.imageUrl
+      ? `<img src="${item.imageUrl}" alt="${item.name}">`
+      : item.name.substring(0, 2).toUpperCase();
+    return `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}">` : item.name.substring(0,2).toUpperCase()}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-meta">Size: ${item.size} · Qty: ${item.qty}</div>
+        <div class="cart-item-price">$${item.price * item.qty}</div>
+        <button class="cart-item-remove" onclick="removeFromCart(${idx})">Remove</button>
+      </div>
+    </div>`;
+  }).join('');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  document.getElementById('cart-total').textContent = `$${total}`;
+}
+
+function openCart() {
+  renderCart();
+  document.getElementById('cart-overlay').classList.add('open');
+  document.getElementById('cart-drawer').classList.add('open');
+}
+function closeCart() {
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.getElementById('cart-drawer').classList.remove('open');
+}
+
+function orderViaWhatsApp() {
+  if (!cart.length) return;
+  const number = waNumber.replace(/\D/g, '') || '15555555555';
+  const lines = cart.map(i => `• ${i.name} (Size: ${i.size}) x${i.qty} — $${i.price * i.qty}`).join('\n');
+  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  const msg = `Hi Mursace! 👋 I'd like to place an order:\n\n${lines}\n\n*Total: $${total}*\n\nPlease confirm availability. Thanks!`;
+  const url = `https://wa.me/${number}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ── ADMIN ──
+function openAdmin() {
+  document.getElementById('admin-panel').classList.add('open');
+  if (adminLoggedIn) renderAdminDashboard();
+  else renderAdminLogin();
+}
+function closeAdmin() {
+  document.getElementById('admin-panel').classList.remove('open');
+}
+
+function renderAdminLogin() {
+  document.getElementById('admin-content').innerHTML = `
+    <div class="admin-header">
+      <div class="admin-title">Admin Access</div>
+      <button onclick="closeAdmin()" style="background:transparent;border:none;color:var(--muted);font-size:1.5rem;cursor:none;">✕</button>
+    </div>
+    <div class="admin-login">
+      <h2>Enter Password</h2>
+      <input type="password" id="admin-pw" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()">
+      <button onclick="adminLogin()">Enter</button>
+      <span class="admin-err" id="admin-err"></span>
+    </div>`;
+}
+
+function adminLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === ADMIN_PASS) {
+    adminLoggedIn = true;
+    renderAdminDashboard();
+  } else {
+    document.getElementById('admin-err').textContent = 'Wrong password.';
+  }
+}
+
+function renderAdminDashboard() {
+  const rows = products.map(p => `
+    <div class="admin-product-row">
+      <div>
+        <div class="name">${p.name}</div>
+        <div style="font-size:0.6rem;color:var(--muted);margin-top:0.2rem;">${p.category} · ${p.inStock ? '✓ In stock' : '✗ Sold out'} · Sizes: ${p.sizes.join(', ')}</div>
+      </div>
+      <div style="display:flex;gap:0.8rem;align-items:center;">
+        <span class="price">$${p.price}</span>
+        <button class="admin-delete-btn" onclick="deleteProduct(${p.id})">Delete</button>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('admin-content').innerHTML = `
+    <div class="admin-header">
+      <div class="admin-title">Mursace Admin</div>
+      <button onclick="closeAdmin()" style="background:transparent;border:none;color:var(--muted);font-size:1.5rem;cursor:none;">✕</button>
+    </div>
+
+    <div class="admin-section-title">WhatsApp Business Number</div>
+    <div class="admin-number">
+      <label>Your WhatsApp number (with country code, no spaces/dashes)</label>
+      <input type="text" id="wa-number" placeholder="e.g. 12425551234" value="${waNumber}">
+      <button class="admin-save-btn" onclick="saveWaNumber()">Save Number</button>
+    </div>
+
+    <div class="admin-section-title">Add New Product</div>
+    <div class="admin-grid">
+      <div class="admin-field">
+        <label>Product Name</label>
+        <input type="text" id="new-name" placeholder="e.g. Classic Tee">
+      </div>
+      <div class="admin-field">
+        <label>Category</label>
+        <select id="new-cat">
+          <option value="tops">Tops</option>
+          <option value="bottoms">Bottoms</option>
+          <option value="outerwear">Outerwear</option>
+          <option value="accessories">Accessories</option>
+        </select>
+      </div>
+      <div class="admin-field">
+        <label>Price (USD)</label>
+        <input type="number" id="new-price" placeholder="55" min="0">
+      </div>
+      <div class="admin-field">
+        <label>Sizes (comma-separated)</label>
+        <input type="text" id="new-sizes" placeholder="S, M, L, XL">
+      </div>
+      <div class="admin-field">
+        <label>Badge Label (optional)</label>
+        <input type="text" id="new-badge" placeholder="New Drop, Limited, Hot…">
+      </div>
+      <div class="admin-field">
+        <label>In Stock?</label>
+        <select id="new-stock">
+          <option value="1">In Stock</option>
+          <option value="0">Out of Stock / Sold Out</option>
+        </select>
+      </div>
+    </div>
+    <div class="admin-field" style="margin-top:1rem;">
+      <label>Product Image URL (optional — paste a direct image link)</label>
+      <input type="text" id="new-img" placeholder="https://…" oninput="previewImg(this.value)">
+      <div class="img-preview" id="img-preview-box">Image preview</div>
+    </div>
+    <button class="admin-add-btn" onclick="addProduct()">+ Add Product to Store</button>
+
+    <div class="admin-section-title">Current Products (${products.length})</div>
+    <div class="existing-products">${rows || '<div style="color:var(--muted);font-size:0.75rem;padding:1rem 0;">No products yet.</div>'}</div>`;
+}
+
+function previewImg(url) {
+  const box = document.getElementById('img-preview-box');
+  if (url) box.innerHTML = `<img src="${url}" alt="preview" onerror="this.parentNode.textContent='Could not load image'">`;
+  else box.textContent = 'Image preview';
+}
+
+function addProduct() {
+  const name = document.getElementById('new-name').value.trim();
+  const cat = document.getElementById('new-cat').value;
+  const price = parseFloat(document.getElementById('new-price').value);
+  const sizesRaw = document.getElementById('new-sizes').value;
+  const badge = document.getElementById('new-badge').value.trim();
+  const inStock = document.getElementById('new-stock').value === '1';
+  const imageUrl = document.getElementById('new-img').value.trim();
+  if (!name || !price || !sizesRaw) { showToast('Fill in all required fields'); return; }
+  const sizes = sizesRaw.split(',').map(s => s.trim()).filter(Boolean);
+  products.push({ id: nextId++, name, category: cat, price, sizes, inStock, badge, imageUrl });
+  saveProducts();
+  renderProducts();
+  renderAdminDashboard();
+  showToast('Product added!');
+}
+
+function deleteProduct(id) {
+  if (!confirm('Delete this product?')) return;
+  products = products.filter(p => p.id !== id);
+  cart = cart.filter(i => i.id !== id);
+  saveProducts();
+  updateCartCount();
+  renderProducts();
+  renderAdminDashboard();
+  showToast('Product removed');
+}
+
+function saveWaNumber() {
+  waNumber = document.getElementById('wa-number').value.trim();
+  localStorage.setItem('mursace_wa', waNumber);
+  showToast('WhatsApp number saved!');
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── INIT ──
+renderProducts();
+updateCartCount();
+</script>
+</body>
+</html>
