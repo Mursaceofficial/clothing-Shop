@@ -482,173 +482,6 @@
     margin-top: 0.75rem;
   }
 
-  /* ── ADMIN PANEL ── */
-  #admin-panel {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 300;
-    display: none;
-    overflow-y: auto;
-  }
-  #admin-panel.open { display: flex; justify-content: center; align-items: flex-start; padding: 3rem 1rem; }
-  .admin-wrap {
-    background: var(--surface);
-    border: 1px solid rgba(212,160,23,0.3);
-    padding: 2.5rem;
-    width: 100%;
-    max-width: 700px;
-  }
-  .admin-header {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid rgba(212,160,23,0.15);
-    padding-bottom: 1.2rem;
-  }
-  .admin-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem; letter-spacing: 0.1em;
-    color: var(--gold);
-  }
-  .admin-section-title {
-    font-size: 0.65rem; letter-spacing: 0.3em;
-    color: var(--gold); text-transform: uppercase;
-    margin-bottom: 1.2rem; margin-top: 2rem;
-    border-bottom: 1px solid rgba(212,160,23,0.15);
-    padding-bottom: 0.5rem;
-  }
-  .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .admin-field { display: flex; flex-direction: column; gap: 0.4rem; }
-  .admin-field label {
-    font-size: 0.6rem; letter-spacing: 0.2em;
-    color: var(--muted); text-transform: uppercase;
-  }
-  .admin-field input, .admin-field select, .admin-field textarea {
-    background: var(--surface2);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--white);
-    padding: 0.6rem 0.8rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-  .admin-field input:focus, .admin-field select:focus, .admin-field textarea:focus {
-    border-color: var(--gold);
-  }
-  .admin-field textarea { min-height: 80px; resize: vertical; }
-  .admin-field select option { background: var(--surface2); }
-  .admin-add-btn {
-    width: 100%;
-    background: var(--gold);
-    border: none;
-    color: var(--black);
-    padding: 0.85rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: none;
-    margin-top: 1.5rem;
-    transition: background 0.2s;
-  }
-  .admin-add-btn:hover { background: var(--gold-light); }
-  .existing-products { margin-top: 1.5rem; }
-  .admin-product-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    font-size: 0.7rem;
-  }
-  .admin-product-row .name { font-family: 'Playfair Display', serif; }
-  .admin-product-row .price { color: var(--gold); }
-  .admin-delete-btn {
-    background: transparent; border: 1px solid rgba(255,80,80,0.3);
-    color: #ff6666;
-    font-size: 0.55rem; letter-spacing: 0.1em;
-    padding: 0.25rem 0.6rem;
-    cursor: none; font-family: 'Space Mono', monospace;
-    text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .admin-delete-btn:hover { background: rgba(255,80,80,0.1); border-color: #ff6666; }
-  .admin-number {
-    display: flex; flex-direction: column; gap: 0.5rem;
-    padding: 1.2rem;
-    border: 1px solid rgba(212,160,23,0.2);
-    background: rgba(212,160,23,0.04);
-  }
-  .admin-number label {
-    font-size: 0.6rem; letter-spacing: 0.2em;
-    color: var(--muted); text-transform: uppercase;
-  }
-  .admin-number input {
-    background: var(--surface2);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--white);
-    padding: 0.6rem 0.8rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.9rem;
-    outline: none; width: 100%;
-    transition: border-color 0.2s;
-  }
-  .admin-number input:focus { border-color: var(--gold); }
-  .admin-save-btn {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 0.5rem 1.2rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: none;
-    margin-top: 0.5rem;
-    transition: all 0.2s;
-    width: fit-content;
-  }
-  .admin-save-btn:hover { background: var(--gold); color: var(--black); }
-  .admin-login {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 1rem; padding: 3rem;
-  }
-  .admin-login h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem; color: var(--gold); letter-spacing: 0.1em;
-  }
-  .admin-login input {
-    background: var(--surface2);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--white);
-    padding: 0.7rem 1rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    outline: none; width: 100%; max-width: 300px;
-    transition: border-color 0.2s;
-  }
-  .admin-login input:focus { border-color: var(--gold); }
-  .admin-login button {
-    background: var(--gold); border: none;
-    color: var(--black); padding: 0.7rem 2rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.15em;
-    text-transform: uppercase; cursor: none;
-    transition: background 0.2s;
-  }
-  .admin-login button:hover { background: var(--gold-light); }
-  .admin-err {
-    font-size: 0.65rem; color: #ff6666; letter-spacing: 0.1em;
-  }
-  .img-preview {
-    width: 100%; height: 140px;
-    background: var(--surface2);
-    border: 1px dashed rgba(212,160,23,0.3);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 0.6rem; letter-spacing: 0.1em;
-    margin-top: 0.5rem; overflow: hidden;
-  }
-  .img-preview img { width: 100%; height: 100%; object-fit: cover; }
-
   /* ── FOOTER ── */
   footer {
     background: var(--surface);
@@ -695,27 +528,12 @@
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* ── ADMIN TOGGLE ── */
-  #admin-toggle {
-    position: fixed; bottom: 2rem; right: 2rem;
-    background: var(--surface);
-    border: 1px solid rgba(212,160,23,0.3);
-    color: var(--gold);
-    width: 48px; height: 48px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: none; z-index: 100;
-    font-size: 1.3rem;
-    transition: background 0.2s;
-  }
-  #admin-toggle:hover { background: var(--surface2); }
-
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     nav ul { display: none; }
     section { padding: 4rem 1.5rem; }
     #about { grid-template-columns: 1fr; gap: 2.5rem; }
     #cart-drawer { width: 100%; right: -100%; }
-    .admin-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; text-align: center; }
   }
 </style>
@@ -858,14 +676,7 @@
   </div>
 </div>
 
-<!-- ADMIN TOGGLE -->
-<button id="admin-toggle" onclick="openAdmin()" title="Admin Panel">⚙</button>
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel" role="dialog" aria-label="Admin panel">
-  <div class="admin-wrap" id="admin-content">
-    <!-- login or dashboard injected here -->
-  </div>
 </div>
 
 <!-- TOAST -->
@@ -873,7 +684,7 @@
 
 <script>
 // ── STATE ──
-let products = JSON.parse(localStorage.getItem('mursace_products') || 'null') || [
+let products = [
   { id: 1, name: "OG Tee Vol. 1", category: "tops", price: 55, sizes: ["S","M","L","XL"], inStock: true, badge: "New Drop", imageUrl: "" },
   { id: 2, name: "Star Hoodie", category: "tops", price: 95, sizes: ["M","L","XL"], inStock: true, badge: "Limited", imageUrl: "" },
   { id: 3, name: "Mursace Cargo", category: "bottoms", price: 80, sizes: ["S","M","L"], inStock: true, badge: "", imageUrl: "" },
@@ -882,15 +693,9 @@ let products = JSON.parse(localStorage.getItem('mursace_products') || 'null') ||
 ];
 let cart = [];
 let selectedSizes = {};
-let waNumber = localStorage.getItem('mursace_wa') || '+1 (242) 802-9999';
-let adminLoggedIn = false;
-const ADMIN_PASS = 'mursace2025';
+let waNumber = '';
 let currentFilter = 'all';
-let nextId = Math.max(...products.map(p => p.id), 0) + 1;
 
-function saveProducts() {
-  localStorage.setItem('mursace_products', JSON.stringify(products));
-}
 
 // ── CURSOR ──
 const cursor = document.getElementById('cursor');
@@ -1028,151 +833,13 @@ function orderViaWhatsApp() {
   window.open(url, '_blank');
 }
 
-// ── ADMIN ──
-function openAdmin() {
-  document.getElementById('admin-panel').classList.add('open');
-  if (adminLoggedIn) renderAdminDashboard();
-  else renderAdminLogin();
-}
-function closeAdmin() {
-  document.getElementById('admin-panel').classList.remove('open');
-}
 
-function renderAdminLogin() {
-  document.getElementById('admin-content').innerHTML = `
-    <div class="admin-header">
-      <div class="admin-title">Admin Access</div>
-      <button onclick="closeAdmin()" style="background:transparent;border:none;color:var(--muted);font-size:1.5rem;cursor:none;">✕</button>
-    </div>
-    <div class="admin-login">
-      <h2>Enter Password</h2>
-      <input type="password" id="admin-pw" placeholder="Password" onkeydown="if(event.key==='Enter')adminLogin()">
-      <button onclick="adminLogin()">Enter</button>
-      <span class="admin-err" id="admin-err"></span>
-    </div>`;
-}
 
-function adminLogin() {
-  const pw = document.getElementById('admin-pw').value;
-  if (pw === ADMIN_PASS) {
-    adminLoggedIn = true;
-    renderAdminDashboard();
-  } else {
-    document.getElementById('admin-err').textContent = 'Wrong password.';
-  }
-}
 
-function renderAdminDashboard() {
-  const rows = products.map(p => `
-    <div class="admin-product-row">
-      <div>
-        <div class="name">${p.name}</div>
-        <div style="font-size:0.6rem;color:var(--muted);margin-top:0.2rem;">${p.category} · ${p.inStock ? '✓ In stock' : '✗ Sold out'} · Sizes: ${p.sizes.join(', ')}</div>
-      </div>
-      <div style="display:flex;gap:0.8rem;align-items:center;">
-        <span class="price">$${p.price}</span>
-        <button class="admin-delete-btn" onclick="deleteProduct(${p.id})">Delete</button>
-      </div>
-    </div>`).join('');
 
-  document.getElementById('admin-content').innerHTML = `
-    <div class="admin-header">
-      <div class="admin-title">Mursace Admin</div>
-      <button onclick="closeAdmin()" style="background:transparent;border:none;color:var(--muted);font-size:1.5rem;cursor:none;">✕</button>
-    </div>
 
-    <div class="admin-section-title">WhatsApp Business Number</div>
-    <div class="admin-number">
-      <label>Your WhatsApp number (with country code, no spaces/dashes)</label>
-      <input type="text" id="wa-number" placeholder="e.g. 12425551234" value="${waNumber}">
-      <button class="admin-save-btn" onclick="saveWaNumber()">Save Number</button>
-    </div>
 
-    <div class="admin-section-title">Add New Product</div>
-    <div class="admin-grid">
-      <div class="admin-field">
-        <label>Product Name</label>
-        <input type="text" id="new-name" placeholder="e.g. Classic Tee">
-      </div>
-      <div class="admin-field">
-        <label>Category</label>
-        <select id="new-cat">
-          <option value="tops">Tops</option>
-          <option value="bottoms">Bottoms</option>
-          <option value="outerwear">Outerwear</option>
-          <option value="accessories">Accessories</option>
-        </select>
-      </div>
-      <div class="admin-field">
-        <label>Price (USD)</label>
-        <input type="number" id="new-price" placeholder="55" min="0">
-      </div>
-      <div class="admin-field">
-        <label>Sizes (comma-separated)</label>
-        <input type="text" id="new-sizes" placeholder="S, M, L, XL">
-      </div>
-      <div class="admin-field">
-        <label>Badge Label (optional)</label>
-        <input type="text" id="new-badge" placeholder="New Drop, Limited, Hot…">
-      </div>
-      <div class="admin-field">
-        <label>In Stock?</label>
-        <select id="new-stock">
-          <option value="1">In Stock</option>
-          <option value="0">Out of Stock / Sold Out</option>
-        </select>
-      </div>
-    </div>
-    <div class="admin-field" style="margin-top:1rem;">
-      <label>Product Image URL (optional — paste a direct image link)</label>
-      <input type="text" id="new-img" placeholder="https://…" oninput="previewImg(this.value)">
-      <div class="img-preview" id="img-preview-box">Image preview</div>
-    </div>
-    <button class="admin-add-btn" onclick="addProduct()">+ Add Product to Store</button>
 
-    <div class="admin-section-title">Current Products (${products.length})</div>
-    <div class="existing-products">${rows || '<div style="color:var(--muted);font-size:0.75rem;padding:1rem 0;">No products yet.</div>'}</div>`;
-}
-
-function previewImg(url) {
-  const box = document.getElementById('img-preview-box');
-  if (url) box.innerHTML = `<img src="${url}" alt="preview" onerror="this.parentNode.textContent='Could not load image'">`;
-  else box.textContent = 'Image preview';
-}
-
-function addProduct() {
-  const name = document.getElementById('new-name').value.trim();
-  const cat = document.getElementById('new-cat').value;
-  const price = parseFloat(document.getElementById('new-price').value);
-  const sizesRaw = document.getElementById('new-sizes').value;
-  const badge = document.getElementById('new-badge').value.trim();
-  const inStock = document.getElementById('new-stock').value === '1';
-  const imageUrl = document.getElementById('new-img').value.trim();
-  if (!name || !price || !sizesRaw) { showToast('Fill in all required fields'); return; }
-  const sizes = sizesRaw.split(',').map(s => s.trim()).filter(Boolean);
-  products.push({ id: nextId++, name, category: cat, price, sizes, inStock, badge, imageUrl });
-  saveProducts();
-  renderProducts();
-  renderAdminDashboard();
-  showToast('Product added!');
-}
-
-function deleteProduct(id) {
-  if (!confirm('Delete this product?')) return;
-  products = products.filter(p => p.id !== id);
-  cart = cart.filter(i => i.id !== id);
-  saveProducts();
-  updateCartCount();
-  renderProducts();
-  renderAdminDashboard();
-  showToast('Product removed');
-}
-
-function saveWaNumber() {
-  waNumber = document.getElementById('wa-number').value.trim();
-  localStorage.setItem('mursace_wa', waNumber);
-  showToast('WhatsApp number saved!');
-}
 
 // ── TOAST ──
 function showToast(msg) {
