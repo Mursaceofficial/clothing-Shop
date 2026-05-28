@@ -231,8 +231,8 @@
     <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
     <button class="filter-btn" onclick="filterProducts('tops',this)">Tops</button>
     <button class="filter-btn" onclick="filterProducts('bottoms',this)">Bottoms</button>
-    <button class="filter-btn" onclick="filterProducts('outerwear',this)">Outerwear</button>
-    <button class="filter-btn" onclick="filterProducts('accessories',this)">Accessories</button>
+    <button class="filter-btn" onclick="filterProducts('shoes',this)">Shoes</button>
+    <button class="filter-btn" onclick="filterProducts('bundles',this)">Bundles</button>
   </div>
   <div id="product-grid"></div>
 </section>
@@ -293,11 +293,13 @@
 </div>
 <script>
 let products = [
-  { id:1, name:"HellStar NGNG Shirt", category:"tops", price:60, sizes:["S","M","L","XL"], inStock:false, badge:"New Drop", imageUrl:"https://i.imgur.com/7kAbnHR.jpeg" },
-  { id:2, name:"Star Hoodie", category:"tops", price:95, sizes:["M","L","XL"], inStock:true, badge:"Limited", imageUrl:"" },
-  { id:3, name:"Mursace Cargo", category:"bottoms", price:80, sizes:["S","M","L"], inStock:true, badge:"", imageUrl:"" },
-  { id:4, name:"Gold Star Cap", category:"accessories", price:35, sizes:["One Size"], inStock:true, badge:"Hot", imageUrl:"" },
-  { id:5, name:"Signature Jogger", category:"bottoms", price:70, sizes:["S","M","L","XL"], inStock:false, badge:"Sold Out", imageUrl:"" },
+  { id:1, name:"HellStar NGNG Shirt", category:"tops", price:70, sizes:["S","M","L","XL"], inStock:false, badge:"New Drop", imageUrl:"https://i.imgur.com/7kAbnHR.jpeg" },
+  { id:2, name:"HellStar ISHBNH Shirt", category:"tops", price:70, sizes:["M","L","XL"], inStock:true, badge:"Limited", imageUrl:"https://i.imgur.com/wKxcgjr.jpeg" },
+  { id:3, name:"HellStar RYIP Shirt", category:"tops", price:70, sizes:["M","L","XL"], inStock:true, badge:"Limited", imageUrl:"https://i.imgur.com/7pTlWPP.jpeg" },
+  { id:4, name:"HellStar PTP Shirt", category:"tops", price:70, sizes:["M","L","XL"], inStock:true, badge:"Limited", imageUrl:"https://i.imgur.com/Pe52QWz.jpeg" },
+  { id:5, name:"HellStar WT Shirt", category:"tops", price:70, sizes:["M","L","XL"], inStock:true, badge:"Limited", imageUrl:"https://i.imgur.com/yZT2yvJ.jpeg" },
+  { id:6, name:"Essentials FOG Bundle", category:"bundle", price:75, sizes:["S","M","L"], inStock:true, badge:"", imageUrl:"https://i.imgur.com/VRvGcuy.jpeg" },
+  { id:7, name:"Purple Jhorts", category:"bottoms", price:70, sizes:["S","M","L","XL"], inStock:false, badge:"Sold Out", imageUrl:"https://i.imgur.com/NtEuruZ.jpeg" },
 ];
 let cart = [], selectedSizes = {}, waNumber = '', currentFilter = 'all';
 
